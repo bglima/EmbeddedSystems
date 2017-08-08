@@ -17,7 +17,7 @@ int main(int argc, const char* argv[] ) {
 	
 	// Trying to write 5 x 20 = 100 bytes at "memory" array.
 	// Only 80 will be written.
-	for( uint8_t i = 1; i <= 80; ++i ) {
+	for( uint8_t i = 1; i <= 100; ++i ) {
 		uint8_t data = rand();
 		if ( !cb_write(&my_cb, rand()) ) 
 			printf("Write #%d FAIL! Data %x lost. Buffer full.\n", i, data);
