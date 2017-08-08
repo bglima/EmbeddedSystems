@@ -1,48 +1,39 @@
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <time.h>
 #include "circularBuffer.h"
 
 int main(int argc, const char* argv[] ) {
-    element_t a[80] = {0};
-
+	printf("V. %d.%d.%d\n", MAJOR, MINOR, BUILD);
+    srand(time(NULL)); 
+	
+	element_t memory[80] = {0};
+	int	integers[20] = {-1};
+	
     cb_create_new(my_cb);
-	cb_set_memory(&my_cb, a, sizeof(a));
+	cb_set_memory(&my_cb, memory, sizeof(memory));
 	
-	printf("Memory size of CB: %d\n", sizeof(a));
-	
-	// Testing writing 80 numbers
-	for( int i = 0; i < 90; ++i ) {
-		if ( cb_write(&my_cb, i+1) )
-			printf("Write#%d of element %d \n", i+1);
+	// Trying to write 5 x 20 = 100 bytes at "memory" array.
+	// Only 80 will be written.
+	for( uint8_t i = 1; i <= 80; ++i ) {
+		uint8_t data = rand();
+		if ( !cb_write(&my_cb, rand()) ) 
+			printf("Write #%d FAIL! Data %x lost. Buffer full.\n", i, data);
 		else
-			printf("Buffer is full. Cannot write anymore :(\n");
+			printf("Write #%d OK! Data %x on buffer.\n", i, data);
+		usleep(100000); // 100 ms = 100 * 10^3 us	
 	}
 	
-	// Print current buffer state
-	cb_print_data( &my_cb );
-
-	// Freeing some space at buffer. Read 15 numbers.
-	for( int i = 0; i < 20; ++i ) {
-		uint8_t data;
-		if ( cb_read(&my_cb, &data) )
-			printf("Read %d from buffer \n", data);
-		else
-			printf("Buffer is empty. Cannot read anymore :(\n");
-	}
-
-	// Print current buffer state
-	cb_print_data( &my_cb );
 	
-	// Trying to write 30 more elements
-	for( int i = 0; i < 30; ++i ) {
-		if ( cb_write(&my_cb, i+81) )
-			printf("Write#%d of element %d \n", i+81);
-		else
-			printf("Buffer is full. Cannot write anymore :(\n");
-	}
+	// Copying values to the integers array
+	memcpy( integers, memory, sizeof(integers) );
 	
-	// Print current buffer state
-	cb_print_data( &my_cb );
-	
-    return 0;
+	// Show at screen the 20 integers in the integers array:
+    printf("\nDisplaying integers array:\n");
+	for( uint8_t i = 0; i < 20; ++i )
+		printf("Data at index %d is %d. HEX value is: %x.\n", i, integers[i], integers[i]);
+		
+	return 0;
 }
