@@ -24,30 +24,44 @@ int main(int argc, char *argv) {
 	x = PI/4;
 	
 	// Benchmark functions	
-	int m = 10,  n = 1000;
-	
+	int m = 1000,  n = 50;
+	double clocks1, clocks2, clocks3, improvement;
+
     printf("=======================================================\n");
     printf("==> Benchmark of separated functions <==\n");
     printf("=======================================================\n");
+    clocks1 = calcAverageTime(m, n, &rawSin, x);
+    clocks2 = calcAverageTime(m, n, &taylorSin, x); 
+    clocks3 = calcAverageTime(m, n, &improvedTaylorSin, x); 
+
     printf("Result for rawSin is %lf. \n", rawSin(x));
-	printf("Average for %i calls by %i samples is: %.2f clock cycles\n\n", m, n, calcAverageTime(m, n, &rawSin, x));		
+	printf("Average for %i calls by %i samples is: %.2f clock cycles\n\n", m, n, clocks1);		
 	
 	printf("Result for taylorSin is %lf. \n", taylorSin(x));
-	printf("Average for %i calls by %i samples is: %.2f clock cycles\n\n", m, n, calcAverageTime(m, n, &taylorSin, x) );		
+	printf("Average for %i calls by %i samples is: %.2f clock cycles\n\n", m, n, clocks2);		
 	
 	printf("Result for improvedTaylorSin is %lf. \n", improvedTaylorSin(x));
-	printf("Average for %i calls by %i samples is: %.2f clock cycles\n\n", m, n, calcAverageTime(m, n, &improvedTaylorSin, x) );		
+	printf("Average for %i calls by %i samples is: %.2f clock cycles\n\n", m, n, clocks3);		
 	
+    improvement = (clocks1 - clocks3) * 100.0 / clocks1;
+    printf("Overral improvement has value of %.2lf percent.\n", improvement);
+
     
     printf("=======================================================\n");
     printf("==> Benchmark of mixed functions, including module, average and division by constant <==\n");
     printf("=======================================================\n");
+    clocks1 = calcAverageTime(m, n, &rawSumAndAverage64, x);
+    clocks2 = calcAverageTime(m, n, &improvedSumAndAverage64, x); 
+
     printf("Result for rawSumAndAverage64 is %lf. \n", rawSumAndAverage64(x));
-	printf("Average for %i calls by %i samples is: %.2f clock cycles\n\n", m, n, calcAverageTime(m, n, &rawSumAndAverage64, x) );		
+	printf("Average for %i calls by %i samples is: %.2f clock cycles\n\n", m, n, clocks1);		
 	
 	printf("Result for improvedSumAndAverage64 is %lf. \n", improvedSumAndAverage64(x));
-    printf("Average for %i calls by %i samples is: %.2f clock cycles\n\n", m, n, calcAverageTime(m, n, &improvedSumAndAverage64, x) );		
-	
+    printf("Average for %i calls by %i samples is: %.2f clock cycles\n\n", m, n, clocks2);		
+    
+    improvement = (clocks1 - clocks2) * 100.0 / clocks1;
+    printf("Overral improvement has value of %.2lf percent.\n", improvement);
+ 	
 }
 
 // Raw sin function
@@ -74,10 +88,7 @@ double rawSumAndAverage64(double x) {
 	int i;
 	for(i = 0; i < 64; ++i) {
 		value[i % 8] = rawSin(x * (i % 4) );
-		//printf("Com modulo: %i\n", i % 8);
-		//printf("Com Bitmaks: %i\n", (int)i & 0b111);
 		accum += value[i % 8];
-//		printf("Value %lf  %lf\n", value[i%8], value[(int)i & 0b111]);
 	}
 	average = accum / 64;
 	return average;	
@@ -91,10 +102,7 @@ double improvedSumAndAverage64(double x) {
 	int i;
 	for(i = 0; i < 64; ++i) {
 		value[i & 0b111] = improvedTaylorSin(x * (i & 0b11) );
-		//printf("Com modulo: %i\n", i % 8);
-		//printf("Com Bitmaks: %i\n", (int)i & 0b111);
 		accum += value[i & 0b111];
-//		printf("Value %lf  %lf\n", value[i%8], value[(int)i & 0b111]);
 	}
 	average = accum / 64;
 	return average;	
