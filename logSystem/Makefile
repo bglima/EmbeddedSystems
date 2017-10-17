@@ -11,8 +11,8 @@ run:
 	gcc main.c log.c -o runnable $(DEFINES)
 	@echo $$(($(BUILD)+1)) > Version.build
 	@echo ''
-	@./runnable
+	@./runnable*
 	
 clean:
-	rm runnablels
+	rm runnable*
 
