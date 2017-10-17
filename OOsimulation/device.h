@@ -41,7 +41,7 @@ data_t * dev_get_data( const device_t *dev );
 bool dev_set_data( device_t *dev, data_t * data_buffer);
 
 void dev_show( const device_t *dev );
-	
-
+void dev_copy( device_t *dev_to, const device_t *dev_from );
+void dev_to_string( const device_t *dev, char * string ); 
 
 #endif

@@ -9,7 +9,7 @@
  *   Makes the copy data from "dev->name" array to "name" array.
  *
  *   dev: Concerning device. 
- *   name: array of char to be filled with device name. Must have size of MAX_NAME_SIZE
+ *   name: Array of char to be filled with device name. Must have size of MAX_NAME_SIZE
  *
  *   returns: nothing
  */
@@ -29,7 +29,7 @@ void dev_get_name( const device_t * dev, char * name ) {
  *   Set "dev->name" with "name" array data
  *
  *   dev: Concerning device. 
- *   name: array of char which data will be copied from. Must have strlen(name) between 0 and MAX_NAME_SIZE.
+ *   name: Array of char which data will be copied from. Must have strlen(name) between 0 and MAX_NAME_SIZE.
  *
  *   returns: Success of operation
  */
@@ -174,10 +174,58 @@ void dev_show( const device_t * dev ) {
 	printf("Status..........: %s\n", status[dev->status]);
 	printf("Signal Strength.: %d\n", dev->signal_strength);
 	printf("Data buffer follows below:");
-	int i;
+	uint16_t i;
 	for(i = 0; i < MAX_DATA_SIZE; ++i ) {
 		if ( i%10 == 0 ) printf("\n");
 		printf("%d ", dev->data_buffer[i]);
 	}
 	printf("\n============================\n");
 };
+
+/*
+ * Function: dev_copy
+ * ----------------------------
+ *   Copy all data from one device to another
+ *
+ *   dev_to: Destination device
+ *	 dev_from: Source device
+ *
+ *   returns: Nothing
+ */
+void dev_copy( device_t *dev_to, const device_t *dev_from ) {
+	memcpy(dev_to, dev_from, sizeof(device_t));
+};
+
+/*
+ * Function: dev_to_string
+ * ----------------------------
+ *   Copy all device data to a passed string.
+ *
+ *   dev: Concerning device
+ *	 string: String in which data will be copied to. Must have size equal to 200.
+ *
+ *   returns: Nothing
+ */
+void dev_to_string( const device_t *dev, char * string ) {
+	char buffer[200];
+	uint8_t len;
+	// Name
+	if (!strcmp(dev->name,"")) {
+		len = sprintf(buffer, "%s, ", unnamed);
+	} else {
+		len = len = sprintf(buffer, "%s, ", dev->name);
+	}
+	// Battery
+	len += sprintf(buffer + len, "%u, ", dev->battery);
+	len += sprintf(buffer + len, "%s, ", status[dev->status]);
+	len += sprintf(buffer + len, "%d, ", dev->signal_strength);
+	uint16_t i;
+	for(i = 0; i < MAX_DATA_SIZE; ++i ) {
+		len += sprintf(buffer + len, "%d ", dev->data_buffer[i]);
+	}
+	len += sprintf(buffer + len, "\n");
+	memcpy(string, buffer, sizeof(buffer));
+};
+
+
+
