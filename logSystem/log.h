@@ -3,7 +3,7 @@
 
 typedef enum { false, true } bool;
 typedef enum { SYS1, SYS2, SYS3, EOS } eLogSubSystem;
-typedef enum { ALL, DEBUG, WARNING, ERROR, FATAL, OFF, EOL } eLogLevel;
+typedef enum { ALL, DEBUG, WARNING, ERROR, FATAL, EOL } eLogLevel;
 
 // Loglevel from each subsystem. Each starts with logLevel ALL
 eLogLevel subsysLogLevel[EOS];
