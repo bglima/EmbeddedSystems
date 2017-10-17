@@ -209,13 +209,11 @@ void dev_copy( device_t *dev_to, const device_t *dev_from ) {
 void dev_to_string( const device_t *dev, char * string ) {
 	char buffer[200];
 	uint8_t len;
-	// Name
 	if (!strcmp(dev->name,"")) {
 		len = sprintf(buffer, "%s, ", unnamed);
 	} else {
 		len = len = sprintf(buffer, "%s, ", dev->name);
 	}
-	// Battery
 	len += sprintf(buffer + len, "%u, ", dev->battery);
 	len += sprintf(buffer + len, "%s, ", status[dev->status]);
 	len += sprintf(buffer + len, "%d, ", dev->signal_strength);
