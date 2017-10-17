@@ -5,10 +5,16 @@
 int main(int argc, char *argv) {
 
 	char dev_name[MAX_NAME_SIZE] = "DevBG";
+	char dev_name2[MAX_NAME_SIZE] = "DBG";
 	char temp_name[MAX_NAME_SIZE] = "";
 	
 	dev_create_new(my_dev);
 	if ( dev_set_name(&my_dev, dev_name) ) {
+		printf("Name set successfully.\n");
+	} else {
+		printf("Error: empty names or larger than %d are not valid.\n", MAX_NAME_SIZE);
+	};
+	if ( dev_set_name(&my_dev, dev_name2) ) {
 		printf("Name set successfully.\n");
 	} else {
 		printf("Error: empty names or larger than %d are not valid.\n", MAX_NAME_SIZE);
