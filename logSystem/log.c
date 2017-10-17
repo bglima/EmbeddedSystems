@@ -3,6 +3,7 @@
 #include <string.h>
 #include "log.h"
 
+
 void LogGlobalOn() {
 	logFunctionPointer = &LogFuncOn;
 };
@@ -22,3 +23,12 @@ void LogFuncOff(eLogSubSystem sys, eLogLevel level, char * msg) {
 void Log( eLogSubSystem sys, eLogLevel level, char * msg) {
 	(*logFunctionPointer)(sys, level, msg);
 };
+
+
+void LogVersion( sFirmwareVersion * v ) {
+	char buffer[200];
+	uint8_t len;
+	len = sprintf(buffer, "Version %u.%u.%u; All rights reserved.\n", v->major, v->minor, v->build);
+	Log(SYS1, MESSAGE, buffer);	
+};
+
