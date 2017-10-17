@@ -125,12 +125,30 @@ bool dev_set_signal( device_t *dev, uint8_t signal_strength ) {
 };
 
 
-
-/* uint8_t * dev_get_data( const device_t *dev ) {
-	return dev->data_buffer;
+/*
+ * Function: dev_get_data
+ * ----------------------------
+ *   Get the pointer to device's data_buffer array.
+ *
+ *   dev: Concerning device. 
+ *
+ *   returns: Pointer to device data_buffer.
+ */
+data_t * dev_get_data( const device_t *dev ) {
+	return (data_t *) &dev->data_buffer;
 };
 
-bool dev_set_data( device_t *dev, data_t * data_buffer ) {
-	dev->data_buffer = data_buffer;
+/*
+ * Function: dev_set_data
+ * ----------------------------
+ *   Copy data to device data_buffer array.
+ *
+ *   dev: Concerning device. 
+ *   data_buffer: Array containing the data which be copied from.
+ *
+ *   returns: Success of operation
+ */
+bool dev_set_data( device_t * dev, data_t * data_buffer ) {
+	memcpy(dev->data_buffer, data_buffer, MAX_DATA_SIZE);
 	return true;
-}; */
+};

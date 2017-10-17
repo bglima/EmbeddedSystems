@@ -3,6 +3,7 @@
 
 #define dev_create_new(name) device_t name = {  0, 0, 0, 0, 0 }
 #define MAX_NAME_SIZE 20
+#define MAX_DATA_SIZE 50
 
 typedef uint8_t data_t;
 typedef enum { false, true } bool;
@@ -18,8 +19,7 @@ typedef struct {
 	uint8_t battery;
 	status_t status;
 	uint8_t signal_strength;
-	data_t * data_buffer	;
-	uint8_t data_buffer_size;
+	data_t data_buffer[MAX_DATA_SIZE];
 } device_t;
 
 void dev_get_name( const device_t *dev, char * name );
@@ -35,6 +35,6 @@ uint8_t dev_get_signal( const device_t *dev );
 bool dev_set_signal( device_t *dev, uint8_t signal_strength );
 
 data_t * dev_get_data( const device_t *dev );
-bool dev_set_data( device_t *dev, data_t * data_buffer, uint8_t data_buffer_size );
+bool dev_set_data( device_t *dev, data_t * data_buffer);
 
 #endif
