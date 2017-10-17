@@ -35,7 +35,7 @@ int main(int argc, char *argv) {
 	LogSetOutputLevel( SYS3, ERROR );
 	Log( SYS3, ALL, "This will not be showed.");
 	Log( SYS3, DEBUG, "Nor will it be.");
-	Log( SYS3, WARNING, "Warning are also hidden.");
+	Log( SYS3, WARNING, "Warnings are also hidden.");
 	Log( SYS3, ERROR, "Ops. He is dead, Jim!");
 	Log( SYS3, FATAL, "OMG! BLUE SCREEN OF DEATH!");
 	
