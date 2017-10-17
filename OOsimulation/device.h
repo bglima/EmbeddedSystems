@@ -8,10 +8,12 @@
 typedef uint8_t data_t;
 typedef enum { false, true } bool;
 
+static char* status[] = {"UNKNOWN", "CONNECTED", "DISCONNECTED"}; 
+
 typedef enum {
+	UNKNOWN,
 	CONNECTED, 
-	DISCONECTED,
-	UNKOWN
+	DISCONNECTED
 } status_t;
 
 typedef struct {
@@ -36,5 +38,9 @@ bool dev_set_signal( device_t *dev, uint8_t signal_strength );
 
 data_t * dev_get_data( const device_t *dev );
 bool dev_set_data( device_t *dev, data_t * data_buffer);
+
+void dev_show( const device_t *dev );
+	
+
 
 #endif
