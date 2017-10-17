@@ -14,6 +14,12 @@
  *   returns: nothing
  */
 void dev_get_name( const device_t * dev, char * name ) {
+	// If name is null, copy UNNAMED as output
+	if (!strcmp(dev->name,"")) {
+		memcpy(name, unnamed, MAX_NAME_SIZE);
+		return;
+	}
+	// Otherwise, copy dev->name
 	memcpy(name, dev->name, MAX_NAME_SIZE);
 };
 
@@ -28,7 +34,7 @@ void dev_get_name( const device_t * dev, char * name ) {
  *   returns: Success of operation
  */
 bool dev_set_name( device_t *dev, const char * name ) {
-	if ( strlen(name) == 0 || strlen(name) > MAX_NAME_SIZE )	
+	if ( sizeof(name) == 0 || sizeof(name) > MAX_NAME_SIZE )	
 		return false;
 	memcpy(dev->name, name, MAX_NAME_SIZE);
 	return true;
