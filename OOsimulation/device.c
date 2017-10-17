@@ -124,7 +124,6 @@ bool dev_set_signal( device_t *dev, uint8_t signal_strength ) {
 	return true;
 };
 
-
 /*
  * Function: dev_get_data
  * ----------------------------
@@ -151,4 +150,28 @@ data_t * dev_get_data( const device_t *dev ) {
 bool dev_set_data( device_t * dev, data_t * data_buffer ) {
 	memcpy(dev->data_buffer, data_buffer, MAX_DATA_SIZE);
 	return true;
+};
+
+/*
+ * Function: dev_show
+ * ----------------------------
+ *   Show all data from device in screen.
+ *
+ *   dev: Concerning device. 
+ *
+ *   returns: Nothing
+ */
+void dev_show( const device_t * dev ) { 
+	printf("\nInfo about %s...\n", strcmp(dev->name,"") ? dev->name : unnamed);
+	printf("============================\n");
+	printf("Battery in %%....: %u\n", dev->battery);
+	printf("Status..........: %s\n", status[dev->status]);
+	printf("Signal Strength.: %d\n", dev->signal_strength);
+	printf("Data buffer follows below:");
+	int i;
+	for(i = 0; i < MAX_DATA_SIZE; ++i ) {
+		if ( i%10 == 0 ) printf("\n");
+		printf("%d ", dev->data_buffer[i]);
+	}
+	printf("\n============================\n");
 };

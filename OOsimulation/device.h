@@ -1,7 +1,7 @@
 #ifndef CIRCULARBUFFER_H
 #define CIRCULARBUFFER_H
 
-#define dev_create_new(name) device_t name = {  0, 0, 0, 0, 0 }
+#define dev_create_new(name) device_t name = { "", 0, 0, 0, 0 }
 #define MAX_NAME_SIZE 20
 #define MAX_DATA_SIZE 50
 
@@ -9,6 +9,7 @@ typedef uint8_t data_t;
 typedef enum { false, true } bool;
 
 static char* status[] = {"UNKNOWN", "CONNECTED", "DISCONNECTED"}; 
+static char* unnamed = "UNNAMED DEVICE";
 
 typedef enum {
 	UNKNOWN,

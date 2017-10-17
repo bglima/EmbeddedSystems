@@ -4,23 +4,23 @@
 
 int main(int argc, char *argv) {
 
-	char dev_name[MAX_NAME_SIZE] = "DevBG";
-	char dev_name2[MAX_NAME_SIZE] = "DBG";
-	char temp_name[MAX_NAME_SIZE] = "";
-	
+	data_t data_input[MAX_DATA_SIZE] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+										1, 2, 3, 4, 5, 6, 7, 8, 9, 20,
+										1, 2, 3, 4, 5, 6, 7, 8, 9, 30,
+										1, 2, 3, 4, 5, 6, 7, 8, 9, 40,
+										1, 2, 3, 4, 5, 6, 7, 8, 9, 50};
+	data_t *data_out;
+
 	dev_create_new(my_dev);
-	if ( dev_set_name(&my_dev, dev_name) ) {
-		printf("Name set successfully.\n");
-	} else {
-		printf("Error: empty names or larger than %d are not valid.\n", MAX_NAME_SIZE);
-	};
-	if ( dev_set_name(&my_dev, dev_name2) ) {
-		printf("Name set successfully.\n");
-	} else {
-		printf("Error: empty names or larger than %d are not valid.\n", MAX_NAME_SIZE);
-	};
-	dev_get_name(&my_dev, temp_name);
-	printf("Name got from device: %s\n", temp_name);
+	dev_set_name(&my_dev, "MyDevice");
+	dev_set_data(&my_dev, data_input);
+	dev_set_battery(&my_dev, 100);
+	dev_set_signal(&my_dev, 255);
+	data_out = dev_get_data(&my_dev);
+	dev_show(&my_dev);
+	
+	dev_create_new(my_other_dev);
+	dev_show(&my_other_dev);
 	
 	return 0;
 }
