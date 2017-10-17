@@ -9,7 +9,7 @@ typedef enum { false, true } bool;
 
 typedef enum {
 	CONNECTED, 
-	DESCONECTED,
+	DISCONECTED,
 	UNKOWN
 } status_t;
 
