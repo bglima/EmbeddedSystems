@@ -100,16 +100,15 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		if (counter >= 500)
+  /* USER CODE END WHILE */
+
+  /* USER CODE BEGIN 3 */
+	if (counter >= 500)
 		{
 			HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
 			counter = 0;
 		}
 		counter++;
-  /* USER CODE END WHILE */
-
-  /* USER CODE BEGIN 3 */
-
   }
   /* USER CODE END 3 */
 
