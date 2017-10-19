@@ -204,7 +204,19 @@ void TIM1_BRK_IRQHandler(void)
 void TIM1_UP_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM1_UP_IRQn 0 */
+	static uint32_t counter = 0;
+	// Executes each 8 ms * 500 = 4 seg
+	if (counter >= 500)
 
+	{
+
+					HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+
+					counter = 0;
+
+	 }
+
+	 counter++;
   /* USER CODE END TIM1_UP_IRQn 0 */
   HAL_TIM_IRQHandler(&htim1);
   /* USER CODE BEGIN TIM1_UP_IRQn 1 */

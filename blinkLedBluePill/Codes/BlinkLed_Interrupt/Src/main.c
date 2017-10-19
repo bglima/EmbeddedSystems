@@ -105,7 +105,7 @@ int main(void)
   /* USER CODE BEGIN 3 */
 	if (counter >= 500)
 		{
-			HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+			HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 			counter = 0;
 		}
 		counter++;
