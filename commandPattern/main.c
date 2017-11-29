@@ -20,11 +20,11 @@
 
 #include "blink.h"
 
-
-void gpiomon(void *pvParaneters)
+void keyboard_monitor_task(void *pvParameters)
 {
+    QueueHandle_t *rawCommandQ = ( QueueHandle_t *) pvParameters;
     char ch;
-    char cmd[81];
+    char cmd[81];   // Max string size is 80. Last char must be \n or \r
     int i = 0;
     printf("\n\n\nWelcome to gpiomon. Type 'help<enter>' for, well, help\n");
     printf("%% ");
@@ -37,7 +37,10 @@ void gpiomon(void *pvParaneters)
                 cmd[i] = 0;
                 i = 0;
                 printf("\n");
-                receiver_handle((char*) cmd);
+
+                // Allow handler to execute its
+                receiver_handle((char*) cmd);   // Handle cmd line that was read
+
                 printf("%% ");
                 fflush(stdout);
             } else {
@@ -46,14 +49,14 @@ void gpiomon(void *pvParaneters)
         } else {
             printf("You will never see this print as read(...) is blocking\n");
         }
+
     }
 }
 
-static QueueHandle_t mainqueue;
 void user_init(void)
 {
     uart_set_baud(0, 115200);
     printf("SDK version:%s\n", sdk_system_get_sdk_version());
-    mainqueue = xQueueCreate(10, sizeof(uint32_t));
-    xTaskCreate(gpiomon, "gpiomon", 256, &mainqueue, 2, NULL);
+    xTaskCreate(keyboard_monitor_task, "keyboard_monitor_task", 256, NULL, 1, NULL);
+    xTaskCreate(blink_led_task, "blink_led_task", 256, NULL, 2, NULL);
 }

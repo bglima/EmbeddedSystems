@@ -6,6 +6,7 @@
 #include <esp8266.h>
 #include "espressif/esp_common.h"
 #include "FreeRTOS.h"
+#include "task.h"
 
 #define MAX_ARGC (10)
 
@@ -31,12 +32,21 @@ typedef struct {
     char * cmd_help;
 } cmd_desc_t;
 
-status_t cmd_on(uint32_t argc, char *argv[]);
-status_t cmd_off(uint32_t argc, char *argv[]);
-status_t cmd_help(uint32_t argc, char *argv[]);
-status_t cmd_sleep(uint32_t argc, char *argv[]);
-status_t cmd_blink(uint32_t argc, char *argv[]);
+/*
+ * Functions prototypes
+ */
+static status_t cmd_on(uint32_t argc, char *argv[]);
+static status_t cmd_off(uint32_t argc, char *argv[]);
+static status_t cmd_help(uint32_t argc, char *argv[]);
+static status_t cmd_sleep(uint32_t argc, char *argv[]);
+static status_t cmd_blink(uint32_t argc, char *argv[]);
 
+void receiver_handle( char * cmd_line );
+void blink_led_task(void *pvParameters);
+
+/*
+ *  Attributes
+ */
 static cmd_desc_t invoker[NUM_OF_CMD] = {
     {"on", &cmd_on, "  $on <gpio number> [ <gpio number>]+     Set gpio to 1\n"},
     {"off", &cmd_off, "  $off <gpio number> [ <gpio number>]+    Set gpio to 0\n"},
@@ -45,7 +55,8 @@ static cmd_desc_t invoker[NUM_OF_CMD] = {
     {"help", &cmd_help, "  $help     Show all avaliable commands\n"}
 };
 
-void receiver_handle( char * cmd_line );
-static uint8_t led_to_blink = 2; // make embedded led as default
+static uint8_t blink_io = 2;    /* Internal led is GPIO = 2 */
+static uint8_t blink_freq = 0;  /* Initialize with blink off */
+
 
 #endif
