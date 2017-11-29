@@ -18,11 +18,12 @@ typedef enum {
     CMD_ON,
     CMD_OFF,
     CMD_BLINK,
+    CMD_SLEEP,
     CMD_HELP,
     NUM_OF_CMD
 } __attribute__((__packed__)) command_t;
 
-typedef void (*function_t)(uint32_t argc, char *argv[]);
+typedef status_t (*function_t)(uint32_t argc, char *argv[]);
 
 typedef struct {
     char * cmd_string;
@@ -30,24 +31,21 @@ typedef struct {
     char * cmd_help;
 } cmd_desc_t;
 
-void cmd_on(uint32_t argc, char *argv[]);
-void cmd_off(uint32_t argc, char *argv[]);
-void cmd_help(uint32_t argc, char *argv[]);
-void cmd_sleep(uint32_t argc, char *argv[]);
-void cmd_blink(uint32_t argc, char *argv[]);
+status_t cmd_on(uint32_t argc, char *argv[]);
+status_t cmd_off(uint32_t argc, char *argv[]);
+status_t cmd_help(uint32_t argc, char *argv[]);
+status_t cmd_sleep(uint32_t argc, char *argv[]);
+status_t cmd_blink(uint32_t argc, char *argv[]);
 
 static cmd_desc_t invoker[NUM_OF_CMD] = {
-    {"on", &cmd_on, "$ on <gpio number> [ <gpio number>]+     Set gpio to 1\n "},
-    {"off", &cmd_off, "$ off <gpio number> [ <gpio number>]+    Set gpio to 0\n"},
-    {"blink", &cmd_blink, "$ blink <gpio number> [ <gpio number>]+    Stop any current blink and starts to blink gpio\n"},
-    {"sleep", &cmd_sleep, "$ sleep     Take a nap for two seconds\n"},
-    {"help", &cmd_help, "$ help     Show all avaliable commands\n"}
+    {"on", &cmd_on, "  $on <gpio number> [ <gpio number>]+     Set gpio to 1\n"},
+    {"off", &cmd_off, "  $off <gpio number> [ <gpio number>]+    Set gpio to 0\n"},
+    {"blink", &cmd_blink, "  $blink <gpio number>     Starts blining gpio\n"},
+    {"sleep", &cmd_sleep, "  $sleep     Take a nap for two seconds\n"},
+    {"help", &cmd_help, "  $help     Show all avaliable commands\n"}
 };
 
 void receiver_handle( char * cmd_line );
-uint8_t led_to_blink;
-
-
-
+static uint8_t led_to_blink = 2; // make embedded led as default
 
 #endif
