@@ -50,7 +50,7 @@ void blink_led_task(void *pvParameters);
 static cmd_desc_t invoker[NUM_OF_CMD] = {
     {"on", &cmd_on, "  $on <gpio number> [ <gpio number>]+     Set gpio to 1\n"},
     {"off", &cmd_off, "  $off <gpio number> [ <gpio number>]+    Set gpio to 0\n"},
-    {"blink", &cmd_blink, "  $blink <gpio number>     Starts blining gpio\n"},
+    {"blink", &cmd_blink, "  $blink <gpio number> <frequency>    Starts blining gpio\n"},
     {"sleep", &cmd_sleep, "  $sleep     Take a nap for two seconds\n"},
     {"help", &cmd_help, "  $help     Show all avaliable commands\n"}
 };

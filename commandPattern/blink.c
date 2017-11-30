@@ -90,7 +90,7 @@ status_t cmd_blink(uint32_t argc, char *argv[])
         printf("Blinking %d\n", blink_io);
         return OK;
     } else {
-        printf("[ERR] Miissing frequency (Hz) and/or gpio number.\n");
+        printf("[ERR] Miissing gpio numbero and/or frequency (Hz)\n");
         return FAIL;
     }
 }
